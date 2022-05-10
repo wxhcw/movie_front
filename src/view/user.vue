@@ -1,10 +1,10 @@
 <template>
-<h1>普通用户界面</h1>
+<h1>普通用户界cscscs面</h1>
 </template>
 
 <script>
 export default {
-
+    name:'user'
 }
 </script>
 

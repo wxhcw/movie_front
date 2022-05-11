@@ -68,6 +68,7 @@
 
 <script>
 import { reactive } from "vue";
+import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { userReg } from "../server/user";
@@ -78,6 +79,7 @@ export default {
   props: ["isLogin"],
   setup(props) {
     const router = useRouter();
+    const store = useStore();
     let user = {
       username: "",
       password: "",
@@ -98,11 +100,11 @@ export default {
     };
     const submitLoginForm = (isLoginState) => {
       if(!isLoginState) return false
-      console.log('执行了submitLoginForm');
       userLogin(userInfo).then((data) => {
         if (data.status) {
           ElMessage.error(data.message);
         } else {
+          store.commit('set_token', data.token)
           const msg = data.role ? "管理员登录成功！" : "用户登录成功！";
           ElMessage.success(msg);
           const path = data.role ? "/admin" : "/user";

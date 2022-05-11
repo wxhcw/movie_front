@@ -27,3 +27,21 @@ export function userLogin(data) {
             });
     });
 }
+
+// 获取用户信息
+export function getUserInfo() {
+    return new Promise((resolve, reject) => {
+        axios
+            .get("/api/my/userinfo", {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}

@@ -17,6 +17,7 @@
             type="password"
             placeholder="password"
             v-model="userInfo.password"
+            @keyup.enter="submitLoginForm(isLogin)"
           >
             <template #prepend>
               <el-button>
@@ -31,7 +32,7 @@
               type="password"
               placeholder="confirm password"
               v-model="userInfo.confirmPwd"
-              @keyup.enter="submitForm()"
+              @keyup.enter="submitRegForm()"
             >
               <template #prepend>
                 <el-button>
@@ -42,10 +43,10 @@
           </el-form-item>
         </template>
         <div class="login-btn" v-if="!isLogin">
-          <el-button type="primary" @click="submitForm()">注册</el-button>
+          <el-button type="primary" @click="submitRegForm()">注册</el-button>
         </div>
         <div class="login-btn" v-else>
-          <el-button type="primary" @click="submitForm()">登录</el-button>
+          <el-button type="primary" @click="submitLoginForm(true)">登录</el-button>
         </div>
         <p class="login-tips">
           <router-link active-class="active" to="/user">忘记密码</router-link>
@@ -70,6 +71,7 @@ import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { userReg } from "../server/user";
+import { userLogin } from "../server/user";
 
 export default {
   name: "login",
@@ -84,17 +86,27 @@ export default {
       user.confirmPwd = "";
     }
     const userInfo = reactive(user);
-    const submitForm = () => {
-      console.log(userInfo);
+    const submitRegForm = () => {
       userReg(userInfo).then((data) => {
-        console.log(data);
         if (data.status) {
-          console.log(data.message);
           ElMessage.error(data.message);
         } else {
           ElMessage.success(data.message);
-          // console.log(router);
           router.push("/");
+        }
+      });
+    };
+    const submitLoginForm = (isLoginState) => {
+      if(!isLoginState) return false
+      console.log('执行了submitLoginForm');
+      userLogin(userInfo).then((data) => {
+        if (data.status) {
+          ElMessage.error(data.message);
+        } else {
+          const msg = data.role ? "管理员登录成功！" : "用户登录成功！";
+          ElMessage.success(msg);
+          const path = data.role ? "/admin" : "/user";
+          router.push(path);
         }
       });
     };
@@ -103,7 +115,8 @@ export default {
     };
     return {
       userInfo,
-      submitForm,
+      submitRegForm,
+      submitLoginForm,
       getForgetPwd,
     };
   },

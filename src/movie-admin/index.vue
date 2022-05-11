@@ -1,13 +1,12 @@
 <template>
-<h1>普通用户界cscscs面</h1>
+  <h1>管理员首页界面</h1>
 </template>
 
 <script>
 export default {
-    name:'user'
-}
+  name: "admin",
+};
 </script>
 
 <style>
-
 </style>

@@ -1,12 +1,12 @@
 <template>
-  <Common :isLogin="true" />
+  <Common :isLogin="false" />
 </template>
 
 <script>
 import Common from "./Common";
 
 export default {
-  name: "login",
+  name: "register",
   components: {
     Common,
   },

@@ -1,12 +1,13 @@
 <template>
-  <h1>管理员界面</h1>
+<h1>用户首页movie-user</h1>
 </template>
 
 <script>
 export default {
-  name: "admin",
-};
+    name:'user'
+}
 </script>
 
 <style>
+
 </style>

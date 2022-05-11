@@ -4,17 +4,22 @@ const routes = [
     {
         path: "/",
         name: "login",
-        component: () => import("../view/Login.vue"),
+        component: () => import("../view/Login"),
+    },
+    {
+        path: "/reg",
+        name: "registry",
+        component: () => import("../view/Register"),
     },
     {
         path: "/user",
         name: "user",
-        component: () => import("../view/User.vue")
+        component: () => import("../movie-user/index")
     },
     {
         path: "/admin",
         name: "admin",
-        component: () => import("../view/Admin.vue")
+        component: () => import("../movie-admin/index")
     }
 ]
 export default createRouter({

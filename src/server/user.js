@@ -45,3 +45,21 @@ export function getUserInfo() {
             });
     });
 }
+
+///update/avatar
+export function updateAvatar(avatar) {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/my/update/avatar", { avatar }, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}

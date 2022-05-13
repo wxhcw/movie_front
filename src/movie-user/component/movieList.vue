@@ -79,7 +79,7 @@ export default {
             for (let i = 0; i < res.length; i++) {
               res[i].style.height = res[i].offsetWidth / 0.66 + "px";
             }
-            console.log("height: ", res[0].offsetHeight);
+            // console.log("height: ", res[0].offsetHeight);
             timer.value = false;
           }, 400);
         }

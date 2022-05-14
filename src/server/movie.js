@@ -1,13 +1,43 @@
 import axios from "axios";
-
-// 获取用户信息
-export function getMovWeekly() {
+const headers = {
+    'Authorization': localStorage.getItem('token')
+}
+// 获取本周上映和最高票房的电影信息
+export function getMovWeek() {
     return new Promise((resolve, reject) => {
         axios
-            .get("/api/my/movie/weekly", {
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
+            .get("/api/movie/week", {
+                headers
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+// 获取最高票房的电影信息
+export function getMovTop() {
+    return new Promise((resolve, reject) => {
+        axios
+            .get("/api/movie/top", {
+                headers
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+// 获取即将上映的电影信息
+export function getMovSoon() {
+    return new Promise((resolve, reject) => {
+        axios
+            .get("/api/movie/soon", {
+                headers
             })
             .then(response => {
                 resolve(response.data);

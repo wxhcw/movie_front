@@ -6,7 +6,8 @@
     <div v-show="!isShowPre" class="button"></div>
     <div class="movie-list-item">
       <div class="movie-type">
-        <h2>Opening This Week</h2>
+        <h2>{{ keyWord }}</h2>
+        <!-- <h2>Opening This Week</h2> -->
       </div>
       <div class="movie-row">
         <div class="movie-col-li" v-for="item in dataShow" :key="item.id">
@@ -30,15 +31,17 @@
 </template>
 
 <script>
-import { getMovWeekly } from "../../server/movie";
-import { onMounted, reactive, toRefs, ref, watch } from "vue";
+import { getMovWeek, getMovSoon } from "../../server/movie";
+import { onMounted, reactive, toRefs, ref, watch, onBeforeUnmount } from "vue";
 import { ElMessage } from "element-plus";
 export default {
   name: "movieList",
+  props: ["keyWord"],
   setup() {
     //获取电影数据的信息（包括分页）
     const movie = reactive({
       week: [],
+      soon: [],
       pageSize: 6,
       pageNum: 1,
       totalPage: [],
@@ -63,24 +66,24 @@ export default {
     //获取浏览器窗口宽度
     let screenWidth = ref(document.body.clientWidth);
     // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
-    const timer = ref(false);
-
+    let timer = null;
+    const flag = ref(false);
     watch(
       // 监听浏览器窗口的宽度，以便做适配
       screenWidth,
       (newValue) => {
         if (newValue < 630) return; //配置的最小宽度就是630
-        if (!timer.value) {
+        if (!flag.value) {
           screenWidth.value = newValue;
-          timer.value = true;
+          flag.value = true;
 
-          setTimeout(() => {
+          timer = setTimeout(() => {
             const res = document.getElementsByClassName("el-image");
             for (let i = 0; i < res.length; i++) {
               res[i].style.height = res[i].offsetWidth / 0.66 + "px";
             }
             // console.log("height: ", res[0].offsetHeight);
-            timer.value = false;
+            flag.value = false;
           }, 400);
         }
       },
@@ -93,7 +96,15 @@ export default {
           screenWidth.value = document.body.clientWidth;
         })();
       };
-      getMovWeekly().then((res) => {
+      getMovSoon().then(
+        (res) => {
+          movie.soon = res.data;
+        },
+        (err) => {
+          ElMessage.error(err.message);
+        }
+      );
+      getMovWeek().then((res) => {
         if (res.status) {
           ElMessage.error(res.message);
         } else {
@@ -111,7 +122,11 @@ export default {
         }
       });
     });
-
+    //销毁定时器防止内存泄漏
+    onBeforeUnmount(() => {
+      clearTimeout(timer);
+      timer = null;
+    });
     return {
       ...toRefs(movie),
       prePage,

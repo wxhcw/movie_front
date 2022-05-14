@@ -2,7 +2,9 @@
   <div class="user-index">
     <Header :userinfo="userinfo" :isAdmin="false" />
     <div class="movie-total">
-      <MovieList />
+      <MovieList keyWord="weekly"/>
+      <MovieList keyWord="top"/>
+      <MovieList keyWord="soon"/>
     </div>
     <UserCenter />
   </div>
@@ -30,10 +32,11 @@ export default {
 <style lang='less' scoped>
 .user-index {
   min-width: 630px;
-
+  overflow: auto;
+  height: 100%;
   @media (min-width: 1101px) {
     .movie-total {
-      padding:0 2rem;
+      padding: 0 2rem;
       margin: 0px auto;
     }
   }

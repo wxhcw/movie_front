@@ -1,4 +1,5 @@
-import { onMounted, reactive, toRefs } from "vue";
+import { ElMessage } from "element-plus";
+import { onMounted, reactive } from "vue";
 import { getUserInfo } from "../server/user";
 export default function () {
     let user = reactive({
@@ -6,8 +7,12 @@ export default function () {
     });
     onMounted(() => {
         getUserInfo().then((res) => {
-            user.userinfo = res.data;
+            if (res.status) {
+                ElMessage.error(res.message);
+            } else {
+                user.userinfo = res.data;
+            }
         });
     });
-    return {...toRefs(user)};
+    return user;
 }

@@ -6,20 +6,21 @@
     <div v-show="!isShowPre" class="button"></div>
     <div class="movie-list-item">
       <div class="movie-type">
-        <h2>{{ keyWord }}</h2>
-        <!-- <h2>Opening This Week</h2> -->
+        <h2>{{ title }}</h2>
       </div>
       <div class="movie-row">
         <div class="movie-col-li" v-for="item in dataShow" :key="item.id">
-          <el-card :body-style="{ padding: '0px' }" class="movie-box">
-            <el-image :src="item.poster" lazy />
-            <div class="movie-bottom">
-              <div class="movie-box-name" :title="item.name">
-                {{ item.name }}
+          <router-link to="/vtest">
+            <el-card :body-style="{ padding: '0px' }" class="movie-box">
+              <el-image :src="item.poster" lazy />
+              <div class="movie-bottom">
+                <div class="movie-box-name" :title="item.name">
+                  {{ item.name }}
+                </div>
+                <div class="movie-box-score">{{ item.score }}</div>
               </div>
-              <div class="movie-box-score">{{ item.score }}</div>
-            </div>
-          </el-card>
+            </el-card>
+          </router-link>
         </div>
       </div>
     </div>
@@ -31,36 +32,64 @@
 </template>
 
 <script>
-import { getMovWeek, getMovSoon } from "../../server/movie";
-import { onMounted, reactive, toRefs, ref, watch, onBeforeUnmount } from "vue";
-import { ElMessage } from "element-plus";
+import {
+  toRefs,
+  reactive,
+  onMounted,
+  ref,
+  watch,
+  onBeforeUnmount,
+  onBeforeUpdate,
+} from "vue";
 export default {
   name: "movieList",
-  props: ["keyWord"],
-  setup() {
-    //获取电影数据的信息（包括分页）
-    const movie = reactive({
-      week: [],
-      soon: [],
-      pageSize: 6,
-      pageNum: 1,
-      totalPage: [],
-      dataShow: "",
-      currentPage: 0,
+  props: ["movieData", "title"],
+  setup(props) {
+    const { movieData } = toRefs(props);
+    // 电影分页信息
+    const moviePage = reactive({
+      size: 6, //每页显示个数
+      num: 1, //总共几页
+      total: [],
+      curPage: 0, //当前页数
+    });
+    const dataShow = ref({}); //最终每页展示数据来源
+    const initPage = () => {
+      moviePage.num = Math.ceil(movieData.value.length / moviePage.size) || 1;
+      for (let i = 0; i < moviePage.num; i++) {
+        moviePage.total[i] = movieData.value.slice(
+          moviePage.size * i,
+          moviePage.size * (i + 1)
+        );
+      }
+      // 获取到数据后显示第一页内容
+      dataShow.value = moviePage.total[moviePage.curPage];
+    };
+    onMounted(() => {
+      initPage();
+      // 监听窗口宽度引发screenWidth的值变化
+      window.onresize = () => {
+        return (() => {
+          screenWidth.value = document.body.clientWidth;
+        })();
+      };
     });
     //控制按钮图标是否展示
+    onBeforeUpdate(() => {
+      initPage();
+    });
     const isShowPre = ref(false);
     const isShowNext = ref(true);
     //下一页
     const nextPage = () => {
-      movie.dataShow = movie.totalPage[++movie.currentPage]; //currentPage一定要先加一
-      if (movie.currentPage === movie.pageNum - 1) isShowNext.value = false;
+      dataShow.value = moviePage.total[++moviePage.curPage]; //curPage一定要先加一
+      if (moviePage.curPage === moviePage.num - 1) isShowNext.value = false;
       else isShowPre.value = true;
     };
     //上一页
     const prePage = () => {
-      movie.dataShow = movie.totalPage[--movie.currentPage];
-      if (movie.currentPage === 0) isShowPre.value = false;
+      dataShow.value = moviePage.total[--moviePage.curPage];
+      if (moviePage.curPage === 0) isShowPre.value = false;
       else isShowNext.value = true;
     };
     //获取浏览器窗口宽度
@@ -90,45 +119,14 @@ export default {
       { immediate: true }
     );
 
-    onMounted(() => {
-      window.onresize = () => {
-        return (() => {
-          screenWidth.value = document.body.clientWidth;
-        })();
-      };
-      getMovSoon().then(
-        (res) => {
-          movie.soon = res.data;
-        },
-        (err) => {
-          ElMessage.error(err.message);
-        }
-      );
-      getMovWeek().then((res) => {
-        if (res.status) {
-          ElMessage.error(res.message);
-        } else {
-          movie.week = res.data;
-          movie.pageNum = Math.ceil(movie.week.length / movie.pageSize) || 1;
-
-          for (let i = 0; i < movie.pageNum; i++) {
-            movie.totalPage[i] = movie.week.slice(
-              movie.pageSize * i,
-              movie.pageSize * (i + 1)
-            );
-          }
-          // 获取到数据后显示第一页内容
-          movie.dataShow = movie.totalPage[movie.currentPage];
-        }
-      });
-    });
     //销毁定时器防止内存泄漏
     onBeforeUnmount(() => {
       clearTimeout(timer);
       timer = null;
     });
     return {
-      ...toRefs(movie),
+      // moviePage,
+      dataShow,
       prePage,
       nextPage,
       isShowPre,

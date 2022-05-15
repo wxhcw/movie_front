@@ -1,30 +1,37 @@
 <template>
   <div class="user-index">
-    <Header :userinfo="userinfo" :isAdmin="false" />
+    <Header :userinfo="user.userinfo" :isAdmin="false" />
     <div class="movie-total">
-      <MovieList keyWord="weekly"/>
-      <MovieList keyWord="top"/>
-      <MovieList keyWord="soon"/>
+      <!-- <Test :movieData="movie.soon" /> -->
+      <MovieList :movieData="movie.week" title="Opening This Week"/>
+      <MovieList :movieData="movie.top" title="Top Box Office" />
+      <MovieList :movieData="movie.soon" title="Coming Soon" />
     </div>
-    <UserCenter />
+    <!-- <UserCenter /> -->
   </div>
 </template>
 
 <script>
 import getUserInfo from "../hooks/getUserInfo";
+import getMovieInfo from "../hooks/getMovieInfo";
 import Header from "../component/Header.vue";
 import MovieList from "./component/movieList.vue";
-import UserCenter from "./userCenter.vue";
+// import Test from "./component/vtest.vue";
+// import UserCenter from "./userCenter.vue";
 export default {
   name: "user",
   components: {
     Header,
-    UserCenter,
+    // UserCenter,
     MovieList,
+    // Test,
   },
   setup() {
-    let userinfo = getUserInfo().userinfo;
-    return { userinfo };
+    let user = getUserInfo();
+    let movie = getMovieInfo();
+    // console.log(movieinfo);
+    // console.log(movieinfo.soon);
+    return { user, movie };
   },
 };
 </script>

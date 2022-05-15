@@ -20,6 +20,11 @@ const routes = [
         path: "/admin",
         name: "admin",
         component: () => import("../movie-admin/index")
+    },
+    {
+        path: "/vtest",
+        name: "vtest",
+        component: () => import("../movie-user/component/vtest")
     }
 ]
 const router = createRouter({

@@ -39,7 +39,7 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="user">首页</el-dropdown-item>
-              <el-dropdown-item command="user">个人中心</el-dropdown-item>
+              <el-dropdown-item command="center">个人中心</el-dropdown-item>
               <el-dropdown-item divided command="loginout"
                 >退出登录</el-dropdown-item
               >
@@ -78,16 +78,16 @@ export default {
       if (command == "loginout") {
         localStorage.removeItem("token");
         router.push("/");
-      } else if (command == "user") {
-        router.push("/user");
+      } else {
+        router.push(`/${command}`);
       }
     };
 
     return {
       collapse,
       collapseChage,
-      handleCommand,
       movname,
+      handleCommand
     };
   },
 };

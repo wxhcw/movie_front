@@ -47,3 +47,18 @@ export function getMovSoon() {
             });
     });
 }
+// 获取某部电影的详细信息
+export function getMovDetail(movname) {
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`/api/movie/detail/${movname}`, {
+                headers
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}

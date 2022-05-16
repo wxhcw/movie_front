@@ -10,14 +10,19 @@
       </div>
       <div class="movie-row">
         <div class="movie-col-li" v-for="item in dataShow" :key="item.id">
-          <router-link to="/vtest">
+          <router-link :to="`/user/movie/detail/${item.name}`">
             <el-card :body-style="{ padding: '0px' }" class="movie-box">
               <el-image :src="item.poster" lazy />
               <div class="movie-bottom">
                 <div class="movie-box-name" :title="item.name">
                   {{ item.name }}
                 </div>
-                <div class="movie-box-score">{{ item.score }}</div>
+                <div v-if="item.score" class="movie-box-score">
+                  {{ item.score }}
+                </div>
+                <div v-else class="movie-box-score italic">
+                  opens {{ item.release }}
+                </div>
               </div>
             </el-card>
           </router-link>
@@ -101,7 +106,7 @@ export default {
       // 监听浏览器窗口的宽度，以便做适配
       screenWidth,
       (newValue) => {
-        if (newValue < 630) return; //配置的最小宽度就是630
+        if (newValue < 680) return; //配置的最小宽度就是680
         if (!flag.value) {
           screenWidth.value = newValue;
           flag.value = true;
@@ -159,7 +164,6 @@ export default {
   .movie-list-item {
     width: 92.4%;
     .movie-type {
-      font-family: ProximaNova;
       padding-bottom: 1.5rem;
       h2 {
         font-size: 1rem;
@@ -182,7 +186,7 @@ export default {
           width: 100%;
           .el-image {
             width: 100%;
-            height: 100%;
+            height: 303px;
           }
           .movie-bottom {
             padding: 0.875rem;
@@ -193,7 +197,15 @@ export default {
             }
             .movie-box-score {
               margin-top: 0.81rem;
-              line-height: 0.75rem;
+              line-height: 1.2rem;
+              font-weight: 300;
+              font-size: 14px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            .italic {
+              font-style: italic;
             }
           }
         }

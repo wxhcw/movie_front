@@ -16,9 +16,9 @@
 <script>
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
-import { updateAvatar } from "../server/user";
+import { updateAvatar } from "../../server/user";
 export default {
-  name: "app",
+  name: "userCenter",
   setup() {
     const imageUrl = ref("");
 

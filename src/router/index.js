@@ -14,18 +14,33 @@ const routes = [
     {
         path: "/user",
         name: "user",
-        component: () => import("../movie-user/index")
+        component: () => import("../movie-user/index"),
+        children: [
+            {
+                path:"",
+                name:"movieIndex",
+                component:() => import("../movie-user/view/movieIndex")
+            },
+            {
+                path: "movie/detail/:movname",
+                name: "movieDetail",
+                component: () => import("../movie-user/view/movieDetail")
+            },
+            {
+                path: "center",
+                name: "userCenter",
+                component: () => import("../movie-user/view/userCenter")
+            },
+        ]
     },
+
+
     {
         path: "/admin",
         name: "admin",
         component: () => import("../movie-admin/index")
     },
-    {
-        path: "/vtest",
-        name: "vtest",
-        component: () => import("../movie-user/component/vtest")
-    }
+
 ]
 const router = createRouter({
     history: createWebHistory(),

@@ -9,7 +9,7 @@
             <el-icon v-else> <expand /> </el-icon>
           </div>
         </template>
-        <div class="logo">电影院售票系统</div>
+        <div class="logo" title="电影院售票系统">电影院售票系统</div>
         <el-input v-model="movname" class="header-input" placeholder="Movie">
           <template #prefix>
             <el-icon><search /></el-icon>
@@ -39,7 +39,9 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="user">首页</el-dropdown-item>
-              <el-dropdown-item command="center">个人中心</el-dropdown-item>
+              <el-dropdown-item command="user/center"
+                >个人中心</el-dropdown-item
+              >
               <el-dropdown-item divided command="loginout"
                 >退出登录</el-dropdown-item
               >
@@ -87,7 +89,7 @@ export default {
       collapse,
       collapseChage,
       movname,
-      handleCommand
+      handleCommand,
     };
   },
 };
@@ -98,9 +100,10 @@ export default {
   box-sizing: border-box;
   width: 100%;
   height: 60px;
-  font-size: 22px;
+  font-size: 1.3rem;
   color: #fff;
   .header-left {
+    width: 45%;
     float: left;
     line-height: 60px;
     .header-left-con {
@@ -108,27 +111,32 @@ export default {
       height: 60px;
       align-items: center;
       .collapse-btn {
-        padding: 0 21px;
+        padding: 0 1.3rem;
         cursor: pointer;
       }
       .logo {
-        width: 250px;
+        width: 30%;
         text-align: center;
+        margin-left: 3.1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .header-input {
-        width: 200px;
+        margin-left: 1rem;
+        width: 45%;
       }
     }
   }
   .header-right {
     float: right;
-    padding-right: 50px;
+    padding-right: 3.1rem;
     .header-user-con {
       display: flex;
       height: 60px;
       align-items: center;
       .user-avator {
-        margin-left: 20px;
+        margin-left: 1.25rem;
         img {
           display: block;
           width: 40px;
@@ -137,7 +145,7 @@ export default {
         }
       }
       .user-name {
-        margin-left: 10px;
+        margin-left: 0.625rem;
         .el-dropdown-link {
           color: #fff;
           cursor: pointer;

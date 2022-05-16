@@ -24,7 +24,7 @@
         <div class="user-avator">
           <!-- <template v-if="userinfo.user_pic"> -->
           <img v-if="userinfo.user_pic" :src="userinfo.user_pic" />
-          <img v-else src="../assets/img/img.jpg" />
+          <img v-else src="../../assets/img/img.jpg" />
           <!-- </template>
           <template v-else>
             <img src= />
@@ -117,7 +117,6 @@ export default {
       .logo {
         width: 30%;
         text-align: center;
-        margin-left: 3.1rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

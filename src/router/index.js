@@ -17,9 +17,9 @@ const routes = [
         component: () => import("../movie-user/index"),
         children: [
             {
-                path:"",
-                name:"movieIndex",
-                component:() => import("../movie-user/view/movieIndex")
+                path: "",
+                name: "movieIndex",
+                component: () => import("../movie-user/view/movieIndex")
             },
             {
                 path: "movie/detail/:movname",
@@ -29,7 +29,35 @@ const routes = [
             {
                 path: "center",
                 name: "userCenter",
-                component: () => import("../movie-user/view/userCenter")
+                component: () => import("../movie-user/view/userCenter"),
+                redirect: '/user/center/settings',
+                children: [
+                    {
+                        path: "settings",
+                        name: "userSetting",
+                        component: () => import("../movie-user/view/userSetting"),
+                    },
+                    {
+                        path: "collect",
+                        name: "userCollect",
+                        component: () => import("../movie-user/view/userCollect"),
+                    },
+                    {
+                        path: "order",
+                        name: "userOrder",
+                        component: () => import("../movie-user/view/userOrder"),
+                    },
+                    {
+                        path: "movHall",
+                        name: "userHall",
+                        component: () => import("../movie-user/view/userHall"),
+                    },
+                    {
+                        path: "movName",
+                        name: "userMovie",
+                        component: () => import("../movie-user/view/userMovie"),
+                    },
+                ]
             },
         ]
     },

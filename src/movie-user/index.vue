@@ -7,7 +7,7 @@
 
 <script>
 import getUserInfo from "../hooks/getUserInfo";
-import Header from "../component/Header.vue";
+import Header from "./component/Header.vue";
 export default {
   name: "user",
   components: {

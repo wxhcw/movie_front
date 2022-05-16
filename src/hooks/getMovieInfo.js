@@ -13,6 +13,9 @@ export default function () {
                 ElMessage.error(res.message);
             } else {
                 movie.top = res.data
+                movie.top.forEach(item => {
+                    item.score /= 2
+                });
             }
         })
         getMovWeek().then(res => {
@@ -20,6 +23,9 @@ export default function () {
                 ElMessage.error(res.message);
             } else {
                 movie.week = res.data
+                movie.week.forEach(item => {
+                    item.score /= 2
+                });
             }
         })
         getMovSoon().then((res) => {

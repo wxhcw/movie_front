@@ -17,8 +17,15 @@
                 <div class="movie-box-name" :title="item.name">
                   {{ item.name }}
                 </div>
-                <div v-if="item.score" class="movie-box-score">
-                  {{ item.score }}
+                <div v-if="item.score" :title="item.score*2" class="movie-box-score">
+                  <el-rate
+                    v-model="item.score"
+                    :colors="['#99A9BF', '#F7BA2A', '#f76a1e']"
+                    disabled
+                    text-color="#ff9900"
+                  />
+                  <span class="score-num">{{ item.score * 2 }}</span>
+                  <!-- <el-rate v-model="item.score" allow-half />{{ item.score }} -->
                 </div>
                 <div v-else class="movie-box-score italic">
                   opens {{ item.release }}
@@ -203,6 +210,11 @@ export default {
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
+              :deep(.el-rate) {
+                --el-rate-icon-margin: 0.2rem !important;
+                margin-right: 0.625rem;
+              }
+              
             }
             .italic {
               font-style: italic;

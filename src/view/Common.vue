@@ -46,7 +46,9 @@
           <el-button type="primary" @click="submitRegForm()">注册</el-button>
         </div>
         <div class="login-btn" v-else>
-          <el-button type="primary" @click="submitLoginForm(true)">登录</el-button>
+          <el-button type="primary" @click="submitLoginForm(true)"
+            >登录</el-button
+          >
         </div>
         <p class="login-tips">
           <router-link active-class="active" to="/user">忘记密码</router-link>
@@ -99,16 +101,16 @@ export default {
       });
     };
     const submitLoginForm = (isLoginState) => {
-      if(!isLoginState) return false
+      if (!isLoginState) return false;
       userLogin(userInfo).then((data) => {
         if (data.status) {
           ElMessage.error(data.message);
         } else {
-          store.commit('set_token', data.token)
+          store.commit("set_token", data.token);
           const msg = data.role ? "管理员登录成功！" : "用户登录成功！";
-          ElMessage.success(msg);
           const path = data.role ? "/admin" : "/user";
           router.push(path);
+          ElMessage.success(msg);
         }
       });
     };

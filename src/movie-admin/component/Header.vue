@@ -22,8 +22,8 @@
       <div class="header-user-con">
         <!-- 用户头像 -->
         <div class="user-avator">
-          <!-- <template v-if="userinfo.user_pic"> -->
-          <img v-if="userinfo.user_pic" :src="userinfo.user_pic" />
+          <!-- <template v-if="userinfo.avatar"> -->
+          <img v-if="userinfo.avatar" :src="userinfo.avatar" />
           <img v-else src="../../assets/img/img.jpg" />
           <!-- </template>
           <template v-else>

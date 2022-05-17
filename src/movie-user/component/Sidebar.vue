@@ -2,7 +2,6 @@
   <div class="sidebar">
     <el-menu
       class="sidebar-el-menu"
-      :default-active="onRoutes"
       background-color="#324157"
       text-color="#efefef"
       active-text-color="#20a0ff"

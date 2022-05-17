@@ -35,6 +35,24 @@ export function getUserInfo() {
     return new Promise((resolve, reject) => {
         axios
             .get("/api/my/userinfo", {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+
+// 更新用户信息
+export function updateUserInfo(user) {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/my/userinfo", { user }, {
                 headers
             })
             .then(response => {

@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { provide } from 'vue';
 import getUserInfo from "../hooks/getUserInfo";
 import Header from "./component/Header.vue";
 export default {
@@ -15,6 +16,7 @@ export default {
   },
   setup() {
     let user = getUserInfo();
+    provide("user", user);
     return { user };
   },
 };

@@ -78,7 +78,6 @@ export default {
       dataShow.value = moviePage.total[moviePage.curPage];
     };
     onMounted(() => {
-      initPage();
       // 监听窗口宽度引发screenWidth的值变化
       window.onresize = () => {
         return (() => {

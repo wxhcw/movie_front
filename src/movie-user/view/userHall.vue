@@ -56,28 +56,19 @@
             size="small"
             type="danger"
             :icon="Ticket"
+            style="margin-right: 0.625rem"
             @click="buyTicket(row)"
           >
             购票
           </el-button>
           <el-button
-            v-if="row.movie_isCollect"
             size="small"
-            type="success"
             :icon="Collection"
+            :type="row.schedule_isCollect ? 'success' : 'primary'"
+            style="width: 90px"
             @click="updateIsCollect(row)"
           >
-            取消收藏
-          </el-button>
-          <el-button
-            v-else
-            size="small"
-            type="primary"
-            :icon="Collection"
-            style="width: 88px"
-            @click="updateIsCollect(row)"
-          >
-            收藏
+            {{ row.schedule_isCollect ? "取消收藏" : "收藏场次" }}
           </el-button>
         </template>
       </el-table-column>
@@ -107,7 +98,7 @@ export default {
     const page = reactive({
       queryName: "",
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 7,
     });
     let total = ref(0);
     const dataShow = reactive({ tableData: [] });
@@ -135,15 +126,16 @@ export default {
     const buyTicket = (row) => {
       console.log(row);
     };
-    const movData = reactive({
-      isCollect: 0,
-      movieId: "",
-    });
+
     const updateIsCollect = (row) => {
-      console.log(row.movie_isCollect);
-      movData.isCollect = !row.movie_isCollect;
-      movData.movieId = row.movie_id;
-      updateCollect(movData).then((res) => {
+      console.log(row.schedule_isCollect);
+      console.log(row.movie_id);
+      row.schedule_isCollect = !row.schedule_isCollect;
+
+      updateCollect({
+        isCollect: row.schedule_isCollect,
+        movieId: row.movie_id,
+      }).then((res) => {
         if (res.status) {
           ElMessage.error(res.message);
         } else {
@@ -175,14 +167,14 @@ export default {
     width: 500px;
     margin-bottom: 1.5rem;
     display: flex;
+    .el-input {
+      margin-right: 1rem;
+    }
   }
-  .el-input {
-    margin-right: 1rem;
+  .movie-hall-page {
+    position: absolute;
+    bottom: 2.5rem;
+    padding-left: 35rem;
   }
-}
-.movie-hall-page {
-  position: absolute;
-  bottom: 2.5rem;
-  padding-left: 35rem;
 }
 </style>

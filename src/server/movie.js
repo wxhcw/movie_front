@@ -107,11 +107,26 @@ export function getHallSchedule(pageData) {
             });
     });
 }
-// 更新某部电影是否想看
+// 更新是否收藏某场次
 export function updateCollect(data) {
     return new Promise((resolve, reject) => {
         axios
             .post("/api/movie/isCollect", { ...data }, {
+                headers
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+// 查看收藏的场次信息
+export function getCollectSchedule() {
+    return new Promise((resolve, reject) => {
+        axios
+            .get("/api/movie/collect/schedule", {
                 headers
             })
             .then(response => {

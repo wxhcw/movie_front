@@ -16,11 +16,16 @@
         </div>
       </div>
       <div class="movie-header-bottom">
-        <el-button :icon="Collection">想看</el-button>
-        <el-button :icon="Star">评分</el-button>
+        <el-button
+          :icon="Collection"
+          :type="priMovie.movie_isCollect ? 'primary' : ''"
+        >
+          {{ priMovie.movie_isCollect ? "取消收藏" : "收藏电影" }}
+        </el-button>
+        <el-button :icon="Star">我要评分</el-button>
       </div>
     </div>
-    <userMovTable :schedule="schedule"/>
+    <userMovTable :schedule="schedule" />
   </div>
 </template>
 
@@ -28,7 +33,10 @@
 import { toRefs } from "vue";
 import userMovTable from "./userMovTable.vue";
 import { Collection, Star } from "@element-plus/icons-vue";
-import { getMovieDetail, getPrimaryAndSchedule } from "../../hooks/getMovieInfo";
+import {
+  getMovieDetail,
+  getPrimaryAndSchedule,
+} from "../../hooks/getMovieInfo";
 export default {
   name: "userMovDetail",
   components: {
@@ -77,7 +85,7 @@ export default {
       margin-top: 0.625rem;
       padding-bottom: 1.5rem;
       .el-button {
-        width: 140px;
+        width: 150px;
       }
     }
   }

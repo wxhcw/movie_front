@@ -57,7 +57,6 @@
             type="danger"
             :icon="Ticket"
             style="margin-right: 0.625rem"
-            @click="buyTicket(row)"
           >
             购票
           </el-button>
@@ -123,10 +122,6 @@ export default {
       initData();
     });
 
-    const buyTicket = (row) => {
-      console.log(row);
-    };
-
     const updateIsCollect = (row) => {
       console.log(row.schedule_isCollect);
       console.log(row.movie_id);
@@ -147,7 +142,6 @@ export default {
       handleCurrentChange,
       queryMovName,
       clearFn,
-      buyTicket,
       updateIsCollect,
       ...toRefs(dataShow),
       total,

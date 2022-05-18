@@ -62,6 +62,11 @@ const routes = [
                         name: "userMovDetail",
                         component: () => import("../movie-user/view/userMovDetail"),
                     },
+                    {
+                        path: "buy/ticket/:id",
+                        name: 'userBuyTicket',
+                        component: () => import("../movie-user/view/userBuyTicket"),
+                    }
                 ]
             },
         ]

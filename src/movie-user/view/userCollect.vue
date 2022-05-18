@@ -39,15 +39,16 @@
       <el-table-column label="Date" width="200" prop="movie_time" />
       <el-table-column label="Operations">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            type="danger"
-            :icon="Ticket"
-            style="width: 90px"
-            @click="buyTicket(row)"
-          >
-            购票
-          </el-button>
+          <router-link :to="`/user/center/buy/ticket/${row.schedule_id}`">
+            <el-button
+              size="small"
+              type="danger"
+              :icon="Ticket"
+              style="width: 90px"
+            >
+              购票
+            </el-button>
+          </router-link>
         </template>
       </el-table-column>
     </el-table>

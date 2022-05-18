@@ -52,14 +52,16 @@
       <el-table-column label="Date" width="200" prop="movie_time" />
       <el-table-column label="Operations">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            type="danger"
-            :icon="Ticket"
-            style="margin-right: 0.625rem"
-          >
-            购票
-          </el-button>
+          <router-link :to="`/user/center/buy/ticket/${row.schedule_id}`">
+            <el-button
+              size="small"
+              type="danger"
+              :icon="Ticket"
+              style="margin-right: 1.2rem"
+            >
+              购票
+            </el-button>
+          </router-link>
           <el-button
             size="small"
             :icon="Collection"
@@ -164,6 +166,10 @@ export default {
     .el-input {
       margin-right: 1rem;
     }
+  }
+  :deep(.el-table__row),
+  :deep(.el-table__header) {
+    height: 60px;
   }
   .movie-hall-page {
     position: absolute;

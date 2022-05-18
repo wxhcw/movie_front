@@ -76,12 +76,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .user-collect {
   padding: 2rem;
 }
-.el-table__row,
-.el-table__header {
+:deep(.el-table__row),
+:deep(.el-table__header) {
   height: 60px;
 }
 </style>

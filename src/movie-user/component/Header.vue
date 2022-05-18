@@ -3,11 +3,6 @@
     <div class="header-left">
       <div class="header-left-con">
         <div class="logo" title="电影院售票系统">电影院售票系统</div>
-        <el-input v-model="movname" class="header-input" placeholder="Movie">
-          <template #prefix>
-            <el-icon><search /></el-icon>
-          </template>
-        </el-input>
       </div>
     </div>
 
@@ -47,13 +42,10 @@
 </template>
 
 <script>
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 export default {
   props: ["userinfo", "isAdmin"],
   setup() {
-    const movname = ref("");
-
     // 用户名下拉菜单选择事件
     const router = useRouter();
     const handleCommand = (command) => {
@@ -66,7 +58,6 @@ export default {
     };
 
     return {
-      movname,
       handleCommand,
     };
   },
@@ -81,25 +72,14 @@ export default {
   font-size: 1.3rem;
   color: #fff;
   .header-left {
-    width: 45%;
     float: left;
     line-height: 60px;
-    .header-left-con {
-      display: flex;
-      height: 60px;
-      align-items: center;
-      .logo {
-        width: 30%;
-        text-align: center;
-        margin-left: 2.7rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .header-input {
-        margin-left: 1rem;
-        width: 45%;
-      }
+    .logo {
+      width: 250px;
+      margin-left: 1.325rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   .header-right {

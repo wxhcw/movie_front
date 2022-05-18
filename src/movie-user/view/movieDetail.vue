@@ -1,6 +1,6 @@
 <template>
   <div class="error" v-if="isEmpty">
-    <p>抱歉，暂无《{{ movname }}》的详情信息！</p>
+    <p>抱歉，暂无《{{ detail.name }}》的详情信息！</p>
   </div>
   <div v-else class="movie-detail">
     <div class="movie-detail-img">
@@ -9,7 +9,7 @@
     <div class="primary-info">
       <div class="detail-left">
         <div class="title-wrap">
-          <h1 class="title">{{ movname }}</h1>
+          <h1 class="title">{{ detail.name }}</h1>
           <div class="meta fw300">
             <span>{{ detail.rated }}</span> |
             <span>{{ detail.runtime }}</span> |
@@ -48,28 +48,13 @@
 </template>
 
 <script>
-import { getMovDetail } from "../../server/movie";
-import { useRoute } from "vue-router";
-import { ElMessage } from "element-plus";
-import { reactive, ref, toRefs } from "vue";
+import { toRefs } from "@vue/reactivity";
+import { getMovieDetail } from "../../hooks/getMovieInfo";
 export default {
   name: "movieDetail",
   setup() {
-    const route = useRoute();
-    const movname = route.params.movname;
-    const isEmpty = ref(false);
-    const mov = reactive({
-      detail: {},
-    });
-    getMovDetail(movname).then((res) => {
-      if (res.status) {
-        ElMessage.error(res.message);
-      } else {
-        mov.detail = res.data[0];
-        isEmpty.value = res.data.length && res.data[0].rated ? false : true;
-      }
-    });
-    return { ...toRefs(mov), movname, isEmpty };
+    const movie = getMovieDetail();
+    return { ...toRefs(movie) };
   },
 };
 </script>
@@ -84,7 +69,7 @@ export default {
   .movie-detail-img {
     width: 100%;
     text-align: center;
-    background-color: rgba(134, 189, 237, 0.4);
+    background-color: rgba(36, 47, 66, 0.4);
     .el-image {
       width: 623px;
       height: 350px;

@@ -52,7 +52,7 @@ export function getUserInfo() {
 export function updateUserInfo(user) {
     return new Promise((resolve, reject) => {
         axios
-            .post("/api/my/userinfo", { user }, {
+            .post("/api/my/userinfo", { ...user }, {
                 headers
             })
             .then(response => {

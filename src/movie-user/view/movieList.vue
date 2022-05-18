@@ -9,8 +9,8 @@
         <h2>{{ title }}</h2>
       </div>
       <div class="movie-row">
-        <div class="movie-col-li" v-for="item in dataShow" :key="item.id">
-          <router-link :to="`/user/movie/detail/${item.name}`">
+        <div class="movie-col-li" v-for="item in dataShow" :key="item.movie_id">
+          <router-link :to="`/user/movie/detail/${item.movie_id}`">
             <el-card :body-style="{ padding: '0px' }" class="movie-box">
               <el-image :src="item.poster" lazy />
               <div class="movie-bottom">

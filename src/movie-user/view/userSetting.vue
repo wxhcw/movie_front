@@ -59,7 +59,6 @@
 <script>
 import { inject, reactive, ref, toRefs } from "vue";
 import { ElMessage } from "element-plus";
-// import { updateAvatar } from "../../server/user";
 import { updateUserInfo } from "../../server/user";
 export default {
   name: "userSetting",

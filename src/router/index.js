@@ -22,7 +22,7 @@ const routes = [
                 component: () => import("../movie-user/view/movieIndex")
             },
             {
-                path: "movie/detail/:movname",
+                path: "movie/detail/:movieId",
                 name: "movieDetail",
                 component: () => import("../movie-user/view/movieDetail")
             },
@@ -56,6 +56,11 @@ const routes = [
                         path: "movName",
                         name: "userMovie",
                         component: () => import("../movie-user/view/userMovie"),
+                    },
+                    {
+                        path: "movDetail/:movieId",
+                        name: "userMovDetail",
+                        component: () => import("../movie-user/view/userMovDetail"),
                     },
                 ]
             },

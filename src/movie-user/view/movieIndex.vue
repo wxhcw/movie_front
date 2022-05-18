@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import getMovieInfo from "../../hooks/getMovieInfo";
+import { getMovieInfo } from "../../hooks/getMovieInfo";
 import MovieList from "./movieList.vue";
 export default {
   name: "movieIndex",

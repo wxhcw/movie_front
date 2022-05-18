@@ -20,18 +20,23 @@
         <el-button :icon="Star">评分</el-button>
       </div>
     </div>
+    <userMovTable :schedule="schedule"/>
   </div>
 </template>
 
 <script>
 import { toRefs } from "vue";
+import userMovTable from "./userMovTable.vue";
 import { Collection, Star } from "@element-plus/icons-vue";
-import { getMovieDetail, getPrimaryMovie } from "../../hooks/getMovieInfo";
+import { getMovieDetail, getPrimaryAndSchedule } from "../../hooks/getMovieInfo";
 export default {
   name: "userMovDetail",
+  components: {
+    userMovTable,
+  },
   setup() {
     const movie = getMovieDetail(); //isEmpty、detail
-    const mov = getPrimaryMovie(); //priMovie
+    const mov = getPrimaryAndSchedule(); //priMovie、schedule
     return { ...toRefs(movie), ...toRefs(mov), Collection, Star };
   },
 };
@@ -43,10 +48,11 @@ export default {
     width: 100%;
     box-sizing: border-box;
     padding-top: 1rem;
+    padding-left: 1rem;
+    margin-bottom: 2rem;
     font-size: 1rem;
-    padding-left: 30rem;
     color: rgb(51, 62, 72);
-    background-color: rgba(20, 21, 22, 0.4);
+    // background-color: rgba(20, 21, 22, 0.4);
     .movie-header-top {
       display: inline-flex;
       flex-wrap: nowrap;
@@ -60,7 +66,7 @@ export default {
         margin-left: 2rem;
         p {
           margin-bottom: 0.9rem;
-          .primary-info-score{
+          .primary-info-score {
             font-size: 1.5rem;
             margin-right: 0.5rem;
           }
@@ -69,7 +75,7 @@ export default {
     }
     .movie-header-bottom {
       margin-top: 0.625rem;
-      padding-bottom: 1rem;
+      padding-bottom: 1.5rem;
       .el-button {
         width: 140px;
       }

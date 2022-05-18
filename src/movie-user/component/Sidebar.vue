@@ -27,16 +27,6 @@ export default {
         title: "个人设置",
       },
       {
-        icon: "Star",
-        index: "./collect",
-        title: "我的收藏",
-      },
-      {
-        icon: "Tickets",
-        index: "./order",
-        title: "我的订单",
-      },
-      {
         icon: "InfoFilled",
         index: "./movName",
         title: "电影信息",
@@ -45,6 +35,16 @@ export default {
         icon: "Ticket",
         index: "./movHall",
         title: "影院购票",
+      },
+      {
+        icon: "Star",
+        index: "./collect",
+        title: "我的收藏",
+      },
+      {
+        icon: "Tickets",
+        index: "./order",
+        title: "我的订单",
       },
     ];
 

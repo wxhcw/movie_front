@@ -58,7 +58,7 @@ const routes = [
                         component: () => import("../movie-user/view/userMovie"),
                     },
                     {
-                        path: "movDetail/:movieId",
+                        path: ":movieId",
                         name: "userMovDetail",
                         component: () => import("../movie-user/view/userMovDetail"),
                     },

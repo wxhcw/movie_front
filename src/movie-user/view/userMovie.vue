@@ -6,17 +6,23 @@
         placeholder="Movie"
         @keyup.enter="queryMovName"
         clearable
+        @clear="clearFn"
       >
       </el-input>
-      <el-button type="primary" :icon="Search" @click="queryMovName"
-        >Search</el-button
-      >
+      <el-button type="primary" :icon="Search" @click="queryMovName">
+        Search
+      </el-button>
     </div>
     <div v-if="dataShow.length === 0">
       <h3>没有关于'{{ queryName }}'查无此内容</h3>
     </div>
-    <div v-else class="movie-hall-info" v-for="item in dataShow" :key="item.movie_id">
-      <router-link :to="`/user/center/movDetail/${item.movie_id}`">
+    <div
+      v-else
+      class="movie-hall-info"
+      v-for="item in dataShow"
+      :key="item.movie_id"
+    >
+      <router-link :to="`/user/center/${item.movie_id}`">
         <div class="movie-box">
           <el-image :src="item.movie_poster" lazy />
           <div class="movie-bottom">
@@ -51,30 +57,24 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref, toRefs } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { getHallMovie } from "../../server/movie";
 export default {
   name: "userMovie",
   setup() {
-    // let hMovie = getMovieHall();
-
-    let currentPage = ref(1);
-    let pageSize = ref(14);
     let total = ref(0);
-    let queryName = ref("");
     const dataShow = ref({});
-
+    const page = reactive({
+      queryName: "",
+      currentPage: 1,
+      pageSize: 14,
+    });
     const handleCurrentChange = (val) => {
-      currentPage.value = val;
+      page.currentPage = val;
       initData();
     };
     const initData = () => {
-      const page = {
-        queryName: queryName.value, //查询内容
-        pageSize: pageSize.value, //每页大小
-        currentPage: currentPage.value, //当前页
-      };
       getHallMovie(page).then((res) => {
         res.data.results.forEach((item) => {
           item.movie_score /= 2;
@@ -89,13 +89,15 @@ export default {
     const queryMovName = () => {
       initData();
     };
+    const clearFn = () => {
+      initData();
+    };
     return {
       queryMovName,
       handleCurrentChange,
+      clearFn,
       Search,
-      queryName,
-      currentPage,
-      pageSize,
+      ...toRefs(page),
       dataShow,
       total,
     };

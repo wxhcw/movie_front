@@ -75,6 +75,7 @@ import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { userReg } from "../server/user";
 import { userLogin } from "../server/user";
+import { nanoid } from "nanoid";
 
 export default {
   name: "login",
@@ -87,10 +88,13 @@ export default {
       password: "",
     };
     if (!props.isLogin) {
+      user.customer_id = nanoid();
+      console.log('id: ',user.customer_id);
       user.confirmPwd = "";
     }
     const userInfo = reactive(user);
     const submitRegForm = () => {
+      console.log(userInfo);
       userReg(userInfo).then((data) => {
         if (data.status) {
           ElMessage.error(data.message);

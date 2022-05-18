@@ -1,5 +1,5 @@
 import { onMounted, reactive, } from "vue";
-import { getMovSoon, getMovTop, getMovWeek, getMovDetail, getPriMovie } from "../server/movie";
+import { getMovSoon, getMovTop, getMovWeek, getMovDetail, getPriMovie, getMovSchedule } from "../server/movie";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 export function getMovieInfo() {
@@ -58,12 +58,13 @@ export function getMovieDetail() {
     });
     return mov
 }
-// 根据ID获取某部电影的基本信息(评分、类型、海报)
-export function getPrimaryMovie() {
+// 根据ID获取某部电影的基本信息和排片信息(评分、类型、海报)
+export function getPrimaryAndSchedule() {
     const route = useRoute();
     const movieId = route.params.movieId;
     const movie = reactive({
         priMovie: {},
+        schedule: []
     });
 
     getPriMovie(movieId).then((res) => {
@@ -71,6 +72,13 @@ export function getPrimaryMovie() {
             ElMessage.error(res.message);
         } else {
             movie.priMovie = res.data[0];
+        }
+    });
+    getMovSchedule(movieId).then((res) => {
+        if (res.status) {
+            ElMessage.error(res.message);
+        } else {
+            movie.schedule = res.data;
         }
     });
     return movie

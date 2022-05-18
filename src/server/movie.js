@@ -47,7 +47,7 @@ export function getMovSoon() {
             });
     });
 }
-// 根据ID获取某部电影的详细信息(放映时长、导演)
+// 根据movieID获取某部电影的详细信息(放映时长、导演)
 export function getMovDetail(movieId) {
     return new Promise((resolve, reject) => {
         axios
@@ -62,7 +62,7 @@ export function getMovDetail(movieId) {
             });
     });
 }
-// 根据ID获取某部电影的基本信息(评分、类型、海报)
+// 根据movieID获取某部电影的基本信息(评分、类型、海报)
 export function getPriMovie(movieId) {
     return new Promise((resolve, reject) => {
         axios
@@ -77,12 +77,56 @@ export function getPriMovie(movieId) {
             });
     });
 }
-
-// 获取影院电影的相关信息
+// 获取影院的全部电影的基本信息
 export function getHallMovie(pageData) {
     return new Promise((resolve, reject) => {
         axios
             .post("/api/movie/info", { ...pageData }, {
+                headers
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+// 获取影院的全部排片信息
+export function getHallSchedule(pageData) {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/movie/schedule", { ...pageData }, {
+                headers
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+// 更新某部电影是否想看
+export function updateCollect(data) {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/movie/isCollect", { ...data }, {
+                headers
+            })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+// 根据movieID获取这部电影的排片信息
+export function getMovSchedule(movieId) {
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`/api/movie/schedule/${movieId}`, {
                 headers
             })
             .then(response => {

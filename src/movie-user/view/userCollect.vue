@@ -3,7 +3,7 @@
     <el-table
       :data="tableData"
       border
-      style="width: 1230px"
+      style="width: 100%"
       empty-text="该影院暂无排片信息"
     >
       <el-table-column
@@ -37,13 +37,13 @@
         <template #default="{ row }"> ￥{{ row.price }} </template>
       </el-table-column>
       <el-table-column label="Date" width="200" prop="movie_time" />
-      <el-table-column label="Operations" width="130">
+      <el-table-column label="Operations">
         <template #default="{ row }">
           <el-button
             size="small"
             type="danger"
             :icon="Ticket"
-            style="width: 90px;"
+            style="width: 90px"
             @click="buyTicket(row)"
           >
             购票
@@ -77,7 +77,7 @@ export default {
 
 <style>
 .user-collect {
-  padding: 2rem 3rem;
+  padding: 2rem;
 }
 .el-table__row,
 .el-table__header {

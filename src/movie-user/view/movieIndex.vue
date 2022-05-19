@@ -1,6 +1,5 @@
 <template>
   <div class="movie-total">
-    <!-- <Test :movieData="movie.soon" /> -->
     <MovieList :movieData="movie.week" title="Opening This Week" />
     <MovieList :movieData="movie.top" title="Top Box Office" />
     <MovieList :movieData="movie.soon" title="Coming Soon" />

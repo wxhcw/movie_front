@@ -72,12 +72,43 @@ const routes = [
             },
         ]
     },
-
-
     {
         path: "/admin",
         name: "admin",
-        component: () => import("../movie-admin/index")
+        component: () => import("../movie-admin/index"),
+        redirect: '/admin/mgrUser',
+        children: [
+            {
+                path: "mgrUser",
+                name: "mgrUser",
+                component: () => import("../movie-admin/view/mgrUser"),
+            },
+            {
+                path: "mgrInfo",
+                name: "mgrInfo",
+                component: () => import("../movie-admin/view/mgrInfo"),
+            },
+            {
+                path: "mgrDetail",
+                name: "mgrDetail",
+                component: () => import("../movie-admin/view/mgrDetail"),
+            },
+            {
+                path: "mgrSchedule",
+                name: "mgrSchedule",
+                component: () => import("../movie-admin/view/mgrSchedule"),
+            },
+            {
+                path: "mgrHall",
+                name: "mgrHall",
+                component: () => import("../movie-admin/view/mgrHall"),
+            },
+            {
+                path: "mgrOrder",
+                name: "mgrOrder",
+                component: () => import("../movie-admin/view/mgrOrder"),
+            },
+        ]
     },
 
 ]

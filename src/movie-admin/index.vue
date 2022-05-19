@@ -1,18 +1,48 @@
 <template>
-  <h1>管理员首页movie-admin</h1>
-  <h1>欢迎您，{{ userinfo.username }}</h1>
+  <div class="admin-index">
+    <Header :userinfo="user.userinfo" :isAdmin="true" />
+    <Sidebar />
+    <div class="content-box" :class="{ 'content-collapse': collapse }">
+      <div class="content">
+        <router-view> </router-view>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import getUserInfo from "../hooks/getUserInfo";
+import Header from "../component/Header.vue";
+import Sidebar from "./component/Sidebar.vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
   name: "admin",
+  components: {
+    Header,
+    Sidebar,
+  },
   setup() {
-    let userinfo = getUserInfo().userinfo;
-    return { userinfo };
+    let user = getUserInfo();
+
+    const store = useStore();
+    const collapse = computed(() => store.state.collapse);
+
+    return { user, collapse };
   },
 };
 </script>
 
-<style>
+<style scoped>
+.admin-index {
+  min-width: 680px;
+  overflow: auto;
+  height: 100%;
+}
+.content-box {
+  left: 185px;
+}
+.content-collapse {
+  left: 65px;
+}
 </style>

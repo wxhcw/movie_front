@@ -3,18 +3,13 @@
     <div class="header-left">
       <div class="header-left-con">
         <!-- 折叠按钮 -->
-        <template v-if="isAdmin">
-          <div class="collapse-btn" @click="collapseChage">
-            <el-icon v-if="!collapse"> <fold /> </el-icon>
-            <el-icon v-else> <expand /> </el-icon>
-          </div>
-        </template>
-        <div class="logo" title="电影院售票系统">电影院售票系统</div>
-        <el-input v-model="movname" class="header-input" placeholder="Movie">
-          <template #prefix>
-            <el-icon><search /></el-icon>
-          </template>
-        </el-input>
+        <div v-show="isAdmin" class="collapse-btn" @click="collapseChage">
+          <el-icon v-if="!collapse" :size="30"> <fold /> </el-icon>
+          <el-icon v-else :size="30"> <expand /> </el-icon>
+        </div>
+        <div class="logo" title="电影院售票系统">
+          {{ isAdmin ? "电影院售票管理系统" : "电影院售票系统" }}
+        </div>
       </div>
     </div>
 
@@ -22,13 +17,8 @@
       <div class="header-user-con">
         <!-- 用户头像 -->
         <div class="user-avator">
-          <!-- <template v-if="userinfo.avatar"> -->
           <img v-if="userinfo.avatar" :src="userinfo.avatar" />
-          <img v-else src="../../assets/img/img.jpg" />
-          <!-- </template>
-          <template v-else>
-            <img src= />
-          </template> -->
+          <img v-else src="../assets/img/img.jpg" />
         </div>
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" @command="handleCommand">
@@ -39,12 +29,12 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="user">首页</el-dropdown-item>
-              <el-dropdown-item command="user/center"
-                >个人中心</el-dropdown-item
-              >
-              <el-dropdown-item divided command="loginout"
-                >退出登录</el-dropdown-item
-              >
+              <el-dropdown-item v-if="!isAdmin" command="user/center">
+                个人中心
+              </el-dropdown-item>
+              <el-dropdown-item divided command="loginout">
+                退出登录
+              </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -54,14 +44,13 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from "vue";
-import { useStore } from "vuex";
+import { ElMessage } from "element-plus/lib/components";
 import { useRouter } from "vue-router";
-import { ElMessage } from 'element-plus';
+import { useStore } from "vuex";
+import { computed, onMounted } from "vue";
 export default {
   props: ["userinfo", "isAdmin"],
   setup() {
-    const movname = ref("");
     const store = useStore();
     const collapse = computed(() => store.state.collapse);
     // 侧边栏折叠
@@ -74,25 +63,22 @@ export default {
         collapseChage();
       }
     });
-
     // 用户名下拉菜单选择事件
     const router = useRouter();
     const handleCommand = (command) => {
       if (command == "loginout") {
         localStorage.removeItem("Authorization");
-        ElMessage.success('退出成功！')
+        ElMessage.success("退出成功！");
         router.push("/");
-        
       } else {
         router.push(`/${command}`);
       }
     };
 
     return {
+      handleCommand,
       collapse,
       collapseChage,
-      movname,
-      handleCommand,
     };
   },
 };
@@ -106,28 +92,26 @@ export default {
   font-size: 1.3rem;
   color: #fff;
   .header-left {
-    width: 45%;
     float: left;
     line-height: 60px;
     .header-left-con {
       display: flex;
-      height: 60px;
-      align-items: center;
       .collapse-btn {
-        padding: 0 1.3rem;
+        box-sizing: border-box;
+        float: left;
+        height: 60px;
+        padding-top: 0.5rem;
+        padding-left: 1.3125rem;
         cursor: pointer;
+        line-height: 60px;
       }
-      .logo {
-        width: 30%;
-        text-align: center;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .header-input {
-        margin-left: 1rem;
-        width: 45%;
-      }
+    }
+    .logo {
+      width: 250px;
+      margin-left: 1.325rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   .header-right {

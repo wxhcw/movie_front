@@ -57,6 +57,7 @@
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { ElMessage } from 'element-plus';
 export default {
   props: ["userinfo", "isAdmin"],
   setup() {
@@ -78,8 +79,10 @@ export default {
     const router = useRouter();
     const handleCommand = (command) => {
       if (command == "loginout") {
-        localStorage.removeItem("token");
+        localStorage.removeItem("Authorization");
+        ElMessage.success('退出成功！')
         router.push("/");
+        
       } else {
         router.push(`/${command}`);
       }

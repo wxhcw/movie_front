@@ -1,5 +1,5 @@
 import { onMounted, reactive, } from "vue";
-import { getMovSoon, getMovTop, getMovWeek, getMovDetail, getPriMovie, getMovSchedule } from "../server/movie";
+import { getMovSoon, getMovTop, getMovWeek, getMovDetail, getPriMovie, getMovSchedule, updateCollect } from "../server/movie";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 export function getMovieInfo() {
@@ -82,4 +82,18 @@ export function getPrimaryAndSchedule() {
         }
     });
     return movie
+}
+//更新是否收藏某场次
+export function updateIsCollect(row) {
+    row.schedule_isCollect = !row.schedule_isCollect;
+    updateCollect({
+        isCollect: row.schedule_isCollect,
+        scheduleId: row.schedule_id,
+    }).then((res) => {
+        if (res.status) {
+            ElMessage.error(res.message);
+        } else {
+            ElMessage.success(res.message);
+        }
+    });
 }

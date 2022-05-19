@@ -1,14 +1,9 @@
 import axios from "axios";
-const headers = {
-    'Authorization': localStorage.getItem('token')
-}
 // 获取本周上映和最高票房的电影信息
 export function getMovWeek() {
     return new Promise((resolve, reject) => {
         axios
-            .get("/api/movie/week", {
-                headers
-            })
+            .get("/api/movie/week",)
             .then(response => {
                 resolve(response.data);
             })
@@ -21,9 +16,8 @@ export function getMovWeek() {
 export function getMovTop() {
     return new Promise((resolve, reject) => {
         axios
-            .get("/api/movie/top", {
-                headers
-            })
+            .get("/api/movie/top",
+        )
             .then(response => {
                 resolve(response.data);
             })
@@ -36,9 +30,7 @@ export function getMovTop() {
 export function getMovSoon() {
     return new Promise((resolve, reject) => {
         axios
-            .get("/api/movie/soon", {
-                headers
-            })
+            .get("/api/movie/soon")
             .then(response => {
                 resolve(response.data);
             })
@@ -51,9 +43,7 @@ export function getMovSoon() {
 export function getMovDetail(movieId) {
     return new Promise((resolve, reject) => {
         axios
-            .get(`/api/movie/detail/${movieId}`, {
-                headers
-            })
+            .get(`/api/movie/detail/${movieId}`)
             .then(response => {
                 resolve(response.data);
             })
@@ -66,9 +56,7 @@ export function getMovDetail(movieId) {
 export function getPriMovie(movieId) {
     return new Promise((resolve, reject) => {
         axios
-            .get(`/api/movie/info/${movieId}`, {
-                headers
-            })
+            .get(`/api/movie/info/${movieId}`)
             .then(response => {
                 resolve(response.data);
             })
@@ -81,9 +69,7 @@ export function getPriMovie(movieId) {
 export function getHallMovie(pageData) {
     return new Promise((resolve, reject) => {
         axios
-            .post("/api/movie/info", { ...pageData }, {
-                headers
-            })
+            .post("/api/movie/info", { ...pageData })
             .then(response => {
                 resolve(response.data);
             })
@@ -96,9 +82,7 @@ export function getHallMovie(pageData) {
 export function getHallSchedule(pageData) {
     return new Promise((resolve, reject) => {
         axios
-            .post("/api/movie/schedule", { ...pageData }, {
-                headers
-            })
+            .post("/api/movie/schedule", { ...pageData })
             .then(response => {
                 resolve(response.data);
             })
@@ -111,9 +95,7 @@ export function getHallSchedule(pageData) {
 export function updateCollect(data) {
     return new Promise((resolve, reject) => {
         axios
-            .post("/api/movie/isCollect", { ...data }, {
-                headers
-            })
+            .post("/api/movie/isCollect", { ...data })
             .then(response => {
                 resolve(response.data);
             })
@@ -126,9 +108,7 @@ export function updateCollect(data) {
 export function getCollectSchedule() {
     return new Promise((resolve, reject) => {
         axios
-            .get("/api/movie/collect/schedule", {
-                headers
-            })
+            .get("/api/movie/collect/schedule")
             .then(response => {
                 resolve(response.data);
             })
@@ -141,9 +121,7 @@ export function getCollectSchedule() {
 export function getMovSchedule(movieId) {
     return new Promise((resolve, reject) => {
         axios
-            .get(`/api/movie/schedule/${movieId}`, {
-                headers
-            })
+            .get(`/api/movie/schedule/${movieId}`)
             .then(response => {
                 resolve(response.data);
             })

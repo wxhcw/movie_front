@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { ElMessage } from "element-plus";
 
 const routes = [
     {
@@ -63,7 +64,7 @@ const routes = [
                         component: () => import("../movie-user/view/userMovDetail"),
                     },
                     {
-                        path: "buy/ticket/:id",
+                        path: ":movieId/:scheduleId",
                         name: 'userBuyTicket',
                         component: () => import("../movie-user/view/userBuyTicket"),
                     }
@@ -84,20 +85,19 @@ const router = createRouter({
     history: createWebHistory(),
     routes: routes
 })
-
-// router.beforeEach((to, from, next) => {
-//     document.title = `${to.meta.title} | vue-manage-system`;
-//     const role = localStorage.getItem('ms_username');
-//     if (!role && to.path !== '/login') {
-//         next('/login');
-//     } else if (to.meta.permission) {
-//         // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已
-//         role === 'admin'
-//             ? next()
-//             : next('/403');
-//     } else {
-//         next();
-//     }
-// });
+// 导航守卫：使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
+router.beforeEach((to, from, next) => {
+    if (to.path === '/' || to.path === '/reg') { //登录页
+        next();
+    } else {
+        let token = localStorage.getItem('Authorization');
+        if (token === null || token === '') { //如果未获取到token
+            ElMessage.warning('请您先登录或者注册！')
+            next('/');
+        } else { // token验证成功
+            next();
+        }
+    }
+});
 
 export default router

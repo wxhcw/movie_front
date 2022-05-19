@@ -52,7 +52,7 @@
       <el-table-column label="Date" width="200" prop="movie_time" />
       <el-table-column label="Operations">
         <template #default="{ row }">
-          <router-link :to="`/user/center/buy/ticket/${row.schedule_id}`">
+          <router-link :to="`/user/center/${row.movie_id}/${row.schedule_id}`">
             <el-button
               size="small"
               type="danger"
@@ -90,9 +90,9 @@
 
 <script>
 import { onMounted, reactive, ref, toRefs } from "vue";
-import { getHallSchedule, updateCollect } from "../../server/movie";
+import { getHallSchedule } from "../../server/movie";
+import { updateIsCollect } from "../../hooks/getMovieInfo";
 import { Collection, Ticket, Search } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
 export default {
   name: "userHall",
   setup() {
@@ -124,22 +124,6 @@ export default {
       initData();
     });
 
-    const updateIsCollect = (row) => {
-      console.log(row.schedule_isCollect);
-      console.log(row.movie_id);
-      row.schedule_isCollect = !row.schedule_isCollect;
-
-      updateCollect({
-        isCollect: row.schedule_isCollect,
-        movieId: row.movie_id,
-      }).then((res) => {
-        if (res.status) {
-          ElMessage.error(res.message);
-        } else {
-          ElMessage.success(res.message);
-        }
-      });
-    };
     return {
       handleCurrentChange,
       queryMovName,

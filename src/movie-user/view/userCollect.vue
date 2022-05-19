@@ -4,7 +4,7 @@
       :data="tableData"
       border
       style="width: 100%"
-      empty-text="该影院暂无排片信息"
+      empty-text="暂无收藏的场次信息"
     >
       <el-table-column
         label="Name"
@@ -38,17 +38,21 @@
       </el-table-column>
       <el-table-column label="Date" width="200" prop="movie_time" />
       <el-table-column label="Operations">
-        <template #default="{ row }">
-          <router-link :to="`/user/center/buy/ticket/${row.schedule_id}`">
-            <el-button
-              size="small"
-              type="danger"
-              :icon="Ticket"
-              style="width: 90px"
-            >
+        <template #default="scope">
+          <router-link :to="`/user/center/${scope.row.movie_id}/${scope.row.schedule_id}`">
+            <el-button size="small" type="danger" :icon="Ticket" style="margin-right: 1.2rem">
               购票
             </el-button>
           </router-link>
+          <el-button
+            size="small"
+            :icon="Collection"
+            type="success"
+            style="width: 90px"
+            @click="upCollect(scope.row, scope.$index)"
+          >
+            取消收藏
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -57,8 +61,9 @@
 
 <script>
 import { onMounted, reactive, toRefs } from "vue";
-import { Ticket } from "@element-plus/icons-vue";
+import { Ticket, Collection } from "@element-plus/icons-vue";
 import { getCollectSchedule } from "../../server/movie";
+import { updateIsCollect } from "../../hooks/getMovieInfo";
 export default {
   name: "userCollect",
   setup() {
@@ -68,17 +73,21 @@ export default {
         dataShow.tableData = res.data;
       });
     };
+    const upCollect = (row, index) => {
+      updateIsCollect(row);
+      dataShow.tableData.splice(index, 1);
+    };
     onMounted(() => {
       initData();
     });
-    return { ...toRefs(dataShow), Ticket };
+    return { ...toRefs(dataShow), Ticket, Collection, upCollect };
   },
 };
 </script>
 
 <style scoped>
 .user-collect {
-  padding: 2rem;
+  padding: 2rem 1.125rem 0;
 }
 :deep(.el-table__row),
 :deep(.el-table__header) {

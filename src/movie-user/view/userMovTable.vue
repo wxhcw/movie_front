@@ -13,16 +13,23 @@
     </el-table-column>
     <el-table-column label="Operations">
       <template #default="{ row }">
-        <el-button size="small" type="danger" @click="buyTicket(row)">
-          购票
-        </el-button>
+         <router-link :to="`/user/center/${row.movie_id}/${row.schedule_id}`">
+            <el-button
+              size="small"
+              type="danger"
+              :icon="Ticket"
+              style="width: 80px"
+            >
+              购票
+            </el-button>
+          </router-link>
       </template>
     </el-table-column>
   </el-table>
 </template>
 
 <script>
-import { Timer } from "@element-plus/icons-vue";
+import { Ticket } from "@element-plus/icons-vue";
 export default {
   name: "userMovieTable",
   props: ["schedule"],
@@ -33,7 +40,7 @@ export default {
     const buyTicket = (row) => {
       console.log(row);
     };
-    return { handleEdit, buyTicket, Timer };
+    return { handleEdit, buyTicket, Ticket };
   },
 };
 </script>

@@ -1,7 +1,4 @@
 import axios from "axios";
-const headers = {
-    'Authorization': localStorage.getItem('token')
-}
 // 用户注册
 export function userReg(data) {
     return new Promise((resolve, reject) => {
@@ -34,11 +31,7 @@ export function userLogin(data) {
 export function getUserInfo() {
     return new Promise((resolve, reject) => {
         axios
-            .get("/api/my/userinfo", {
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
-            })
+            .get("/api/my/userinfo")
             .then(response => {
                 resolve(response.data);
             })
@@ -52,25 +45,7 @@ export function getUserInfo() {
 export function updateUserInfo(user) {
     return new Promise((resolve, reject) => {
         axios
-            .post("/api/my/userinfo", { ...user }, {
-                headers
-            })
-            .then(response => {
-                resolve(response.data);
-            })
-            .catch(err => {
-                reject(err);
-            });
-    });
-}
-
-//更新头像信息
-export function updateAvatar(avatar) {
-    return new Promise((resolve, reject) => {
-        axios
-            .post("/api/my/update/avatar", { avatar }, {
-                headers
-            })
+            .post("/api/my/userinfo", { ...user })
             .then(response => {
                 resolve(response.data);
             })

@@ -48,6 +48,7 @@ import { ElMessage } from "element-plus/lib/components";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
+import { ElMessageBox } from "element-plus";
 export default {
   props: ["userinfo", "isAdmin"],
   setup() {
@@ -67,9 +68,15 @@ export default {
     const router = useRouter();
     const handleCommand = (command) => {
       if (command == "loginout") {
-        localStorage.removeItem("Authorization");
-        ElMessage.success("退出成功！");
-        router.push("/");
+        ElMessageBox.confirm(`确定要退出吗?`, {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }).then(() => {
+          localStorage.removeItem("Authorization");
+          ElMessage.success("退出成功！");
+          router.push("/");
+        });
       } else {
         router.push(`/${command}`);
       }

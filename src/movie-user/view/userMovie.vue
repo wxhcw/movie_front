@@ -9,12 +9,20 @@
         @clear="clearFn"
       >
       </el-input>
+      <el-input
+        v-model="queryType"
+        placeholder="Type"
+        @keyup.enter="queryMovName"
+        clearable
+        @clear="clearFn"
+      >
+      </el-input>
       <el-button type="primary" :icon="Search" @click="queryMovName">
         Search
       </el-button>
     </div>
-    <div v-if="dataShow.length === 0">
-      <h3>没有关于'{{ queryName }}'查无此内容</h3>
+    <div v-if="!total">
+      <h3>查无此内容</h3>
     </div>
     <div
       v-else
@@ -37,7 +45,6 @@
                 text-color="#ff9900"
               />
               <span class="score-num">{{ item.movie_score * 2 }}</span>
-              <!-- <el-rate v-model="item.score" allow-half />{{ item.score }} -->
             </div>
           </div>
         </div>
@@ -57,50 +64,14 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref, toRefs } from "vue";
-import { Search } from "@element-plus/icons-vue";
-import { getHallMovie } from "../../server/movie";
+import { reactive, toRefs } from "vue";
+import { getAllMovieInfoAction } from "../../hooks/getMovieInfo";
 export default {
   name: "userMovie",
   setup() {
-    let total = ref(0);
-    const dataShow = ref({});
-    const page = reactive({
-      queryName: "",
-      currentPage: 1,
-      pageSize: 14,
-    });
-    const handleCurrentChange = (val) => {
-      page.currentPage = val;
-      initData();
-    };
-    const initData = () => {
-      getHallMovie(page).then((res) => {
-        res.data.results.forEach((item) => {
-          item.movie_score /= 2;
-        });
-        dataShow.value = res.data.results;
-        total.value = res.data.totalCount;
-      });
-    };
-    onMounted(() => {
-      initData();
-    });
-    const queryMovName = () => {
-      initData();
-    };
-    const clearFn = () => {
-      initData();
-    };
-    return {
-      queryMovName,
-      handleCurrentChange,
-      clearFn,
-      Search,
-      ...toRefs(page),
-      dataShow,
-      total,
-    };
+    const movieHandler = reactive({});
+    movieHandler.value = getAllMovieInfoAction(14);
+    return { ...toRefs(movieHandler.value) };
   },
 };
 </script>

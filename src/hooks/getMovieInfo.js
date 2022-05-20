@@ -1,7 +1,55 @@
-import { onMounted, reactive, } from "vue";
-import { getMovSoon, getMovTop, getMovWeek, getMovDetail, getPriMovie, getMovSchedule, updateCollect } from "../server/movie";
+import { onMounted, reactive, toRefs, markRaw } from "vue";
+import { getAllMovieInfo, getMovSoon, getMovTop, getMovWeek, getMovDetail, getPriMovie, getMovSchedule, updateCollect } from "../server/movie";
+import { Search } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
+
+export function getAllMovieInfoAction(pSize) {
+    const movieinfo = reactive({
+        dataShow: [],
+        total: 0,
+    });
+    const page = reactive({
+        queryName: "",
+        queryType: "",
+        currentPage: 1,
+        pageSize: 0,
+    });
+    page.pageSize = pSize
+    const handleCurrentChange = (val) => {
+        page.currentPage = val;
+        initData();
+    };
+    const initData = () => {
+        getAllMovieInfo(page).then((res) => {
+            if (pSize === 14) {
+                res.data.results.forEach((item) => {
+                    item.movie_score /= 2;
+                });
+            }
+            movieinfo.dataShow = res.data.results;
+            movieinfo.total = res.data.totalCount;
+        });
+    };
+    onMounted(() => {
+        initData();
+    });
+    const queryMovName = () => {
+        initData();
+    };
+    const clearFn = () => {
+        initData();
+    };
+    return {
+        queryMovName,
+        handleCurrentChange,
+        clearFn,
+        Search: markRaw(Search),
+        ...toRefs(page),
+        ...toRefs(movieinfo),
+    };
+}
+
 export function getMovieInfo() {
     let movie = reactive({
         soon: [],

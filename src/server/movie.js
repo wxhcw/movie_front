@@ -66,7 +66,7 @@ export function getPriMovie(movieId) {
     });
 }
 // 获取影院的全部电影的基本信息
-export function getHallMovie(pageData) {
+export function getAllMovieInfo(pageData) {
     return new Promise((resolve, reject) => {
         axios
             .post("/api/movie/info", { ...pageData })

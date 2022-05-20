@@ -1,9 +1,58 @@
-import { onMounted, reactive, toRefs, markRaw } from "vue";
-import { getAllMovieInfo, getMovSoon, getMovTop, getMovWeek, getMovDetail, getPriMovie, getMovSchedule, updateCollect } from "../server/movie";
-import { Search } from "@element-plus/icons-vue";
+import { onMounted, reactive, toRefs } from "vue";
+import { getHallSchedule, getAllMovieInfo, getMovSoon, getMovTop, getMovWeek, getMovDetail, getPriMovie, getMovSchedule, updateCollect } from "../server/movie";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
+import moment from "moment";
 
+//获取影院全部排片信息
+export function getScheduleAction(pSize) {
+    const dataShow = reactive({
+        tableData: [],
+        total: 0,
+    });
+    const page = reactive({
+        queryName: "",
+        queryHall: "",
+        queryDate: [],
+        currentPage: 1,
+        pageSize: 0,
+    });
+    page.pageSize = pSize
+    const handleCurrentChange = (val) => {
+        page.currentPage = val;
+        initData();
+    };
+    const initData = () => {
+        if (!page.queryDate) { //为空要重新为其赋空数组
+            page.queryDate = []
+        }
+        getHallSchedule(page).then((res) => {
+            res.data.results.forEach(item => {
+                //格式化日期
+                item.movie_time = moment(item.movie_time).format("YYYY-MM-DD HH:mm")
+            })
+            dataShow.tableData = res.data.results;
+            dataShow.total = res.data.totalCount;
+        });
+    };
+    onMounted(() => {
+        initData();
+    });
+    const queryMovName = () => {
+        initData();
+    };
+    const clearFn = () => {
+        initData();
+    };
+    return {
+        queryMovName,
+        handleCurrentChange,
+        clearFn,
+        ...toRefs(page),
+        ...toRefs(dataShow),
+    };
+}
+//获取影院全部电影信息
 export function getAllMovieInfoAction(pSize) {
     const movieinfo = reactive({
         dataShow: [],
@@ -44,12 +93,11 @@ export function getAllMovieInfoAction(pSize) {
         queryMovName,
         handleCurrentChange,
         clearFn,
-        Search: markRaw(Search),
         ...toRefs(page),
         ...toRefs(movieinfo),
     };
 }
-
+//获取首页电影信息
 export function getMovieInfo() {
     let movie = reactive({
         soon: [],

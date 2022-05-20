@@ -9,6 +9,22 @@
         @clear="clearFn"
       >
       </el-input>
+      <el-input
+        v-model="queryHall"
+        placeholder="Hall number"
+        @keyup.enter="queryMovName"
+        clearable
+        @clear="clearFn"
+      >
+      </el-input>
+      <el-date-picker
+        v-model="queryDate"
+        type="datetimerange"
+        range-separator="To"
+        start-placeholder="Start date"
+        end-placeholder="End date"
+        value-format="YYYY/MM/DD hh:mm"
+      />
       <el-button type="primary" :icon="Search" @click="queryMovName">
         Search
       </el-button>
@@ -89,49 +105,19 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref, toRefs } from "vue";
-import { getHallSchedule } from "../../server/movie";
-import { updateIsCollect } from "../../hooks/getMovieInfo";
+import { reactive, toRefs } from "vue";
+import { updateIsCollect, getScheduleAction } from "../../hooks/getMovieInfo";
 import { Collection, Ticket, Search } from "@element-plus/icons-vue";
 export default {
   name: "userHall",
   setup() {
-    const page = reactive({
-      queryName: "",
-      currentPage: 1,
-      pageSize: 7,
-    });
-    let total = ref(0);
-    const dataShow = reactive({ tableData: [] });
-
-    const handleCurrentChange = (val) => {
-      page.currentPage = val;
-      initData();
-    };
-    const queryMovName = () => {
-      initData();
-    };
-    const clearFn = () => {
-      initData();
-    };
-    const initData = () => {
-      getHallSchedule(page).then((res) => {
-        dataShow.tableData = res.data.results;
-        total.value = res.data.totalCount;
-      });
-    };
-    onMounted(() => {
-      initData();
-    });
+    //获取排片信息
+    const scheduleHandler = reactive({});
+    scheduleHandler.value = getScheduleAction(7);
 
     return {
-      handleCurrentChange,
-      queryMovName,
-      clearFn,
+      ...toRefs(scheduleHandler.value),
       updateIsCollect,
-      ...toRefs(dataShow),
-      total,
-      ...toRefs(page),
       Collection,
       Ticket,
       Search,
@@ -144,10 +130,14 @@ export default {
 .user-hall {
   padding: 1.5rem 1.125rem 0;
   .movie-hall-input {
-    width: 500px;
     margin-bottom: 1.5rem;
     display: flex;
-    .el-input {
+    width: 1200px;
+    :deep(.el-input) {
+      width: 220px;
+      margin-right: 0.625rem;
+    }
+    :deep(.el-date-editor) {
       margin-right: 1rem;
     }
   }

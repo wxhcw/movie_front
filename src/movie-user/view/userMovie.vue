@@ -65,13 +65,14 @@
 
 <script>
 import { reactive, toRefs } from "vue";
+import { Search } from "@element-plus/icons-vue";
 import { getAllMovieInfoAction } from "../../hooks/getMovieInfo";
 export default {
   name: "userMovie",
   setup() {
     const movieHandler = reactive({});
     movieHandler.value = getAllMovieInfoAction(14);
-    return { ...toRefs(movieHandler.value) };
+    return { ...toRefs(movieHandler.value), Search };
   },
 };
 </script>

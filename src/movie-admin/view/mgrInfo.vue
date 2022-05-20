@@ -55,6 +55,7 @@
           <el-button
             type="primary"
             size="small"
+            :icon="Edit"
             @click="updateMovieInfo(scope.row)"
             style="margin: 0 0.625rem"
           >
@@ -63,6 +64,7 @@
           <el-button
             type="danger"
             size="small"
+            :icon="Delete"
             @click="deleteMovieInfo(scope.row, scope.$index)"
           >
             删除影片
@@ -95,7 +97,7 @@
         <el-form-item label="Score">
           <el-input v-model="updateMovieInfoForm.value.movie_score"></el-input>
         </el-form-item>
-        <el-form-item label="Poster">
+        <el-form-item label="Poster" class="info-poster">
           <el-upload
             action="/api/my/update/avatar"
             :show-file-list="false"
@@ -134,7 +136,7 @@
         <el-form-item label="Score">
           <el-input v-model="InsertMovieInfoForm.movie_score"></el-input>
         </el-form-item>
-        <el-form-item label="Poster">
+        <el-form-item label="Poster" class="info-poster">
           <el-upload
             action="/api/my/update/avatar"
             :show-file-list="false"
@@ -165,7 +167,7 @@
 <script>
 import { reactive, ref, toRefs } from "vue";
 import { updateMovInfo, delMovInfo, insertMovInfo } from "../../server/admin";
-import { CirclePlus } from "@element-plus/icons-vue";
+import { CirclePlus, Search, Delete, Edit } from "@element-plus/icons-vue";
 import { getAllMovieInfoAction } from "../../hooks/getMovieInfo";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { nanoid } from "nanoid";
@@ -276,6 +278,9 @@ export default {
       handleInsPosterSuccess,
       beforePosterUpload,
       CirclePlus,
+      Search,
+      Delete,
+      Edit,
     };
   },
 };
@@ -310,8 +315,8 @@ export default {
     width: 150px;
   }
 
-  .el-form-item__content {
-    line-height: 0;
+  .info-poster {
+    height: 150px;
   }
 }
 </style>

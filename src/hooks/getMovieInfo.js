@@ -174,6 +174,10 @@ export function getPrimaryAndSchedule() {
         if (res.status) {
             ElMessage.error(res.message);
         } else {
+            res.data.forEach(item => {
+                //格式化日期
+                item.movie_time = moment(item.movie_time).format("YYYY-MM-DD HH:mm")
+            })
             movie.schedule = res.data;
         }
     });

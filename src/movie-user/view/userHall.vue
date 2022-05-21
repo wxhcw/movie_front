@@ -65,19 +65,20 @@
       <el-table-column label="Price" width="100">
         <template #default="{ row }"> ￥{{ row.price }} </template>
       </el-table-column>
-      <el-table-column label="Date" width="200" prop="movie_time" />
+      <el-table-column label="Release date" width="200" prop="movie_time" />
       <el-table-column label="Operations">
         <template #default="{ row }">
-          <router-link :to="`/user/center/${row.movie_id}/${row.schedule_id}`">
-            <el-button
-              size="small"
-              type="danger"
-              :icon="Ticket"
-              style="margin-right: 1.2rem"
-            >
-              购票
-            </el-button>
-          </router-link>
+          <!-- <router-link :to="`/user/center/${row.movie_id}/${row.schedule_id}`"> -->
+          <el-button
+            size="small"
+            type="danger"
+            :icon="Ticket"
+            style="margin-right: 1.2rem"
+            @click="buyTicket(row)"
+          >
+            购票
+          </el-button>
+          <!-- </router-link> -->
           <el-button
             size="small"
             :icon="Collection"
@@ -105,8 +106,9 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, inject } from "vue";
 import { updateIsCollect, getScheduleAction } from "../../hooks/getMovieInfo";
+import { buyTicketAction } from "../../hooks/getUserInfo";
 import { Collection, Ticket, Search } from "@element-plus/icons-vue";
 export default {
   name: "userHall",
@@ -114,9 +116,13 @@ export default {
     //获取排片信息
     const scheduleHandler = reactive({});
     scheduleHandler.value = getScheduleAction(7);
-
+    const user = inject("user"); //获取用户ID
+    const buyTicket = (row) => {
+      buyTicketAction(row, user.userinfo.customer_id);
+    };
     return {
       ...toRefs(scheduleHandler.value),
+      buyTicket,
       updateIsCollect,
       Collection,
       Ticket,

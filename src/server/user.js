@@ -54,3 +54,29 @@ export function updateUserInfo(user) {
             });
     });
 }
+// 购买电影票生成订单（新增订单信息）
+export function insertOrder(ticket) {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/my/insertOrder", { ...ticket })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+// 根据用户ID获取订单信息
+export function getOrderInfo(userId) {
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`/api/my/orderInfo/${userId}`)
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}

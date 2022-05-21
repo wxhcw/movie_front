@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import { provide } from 'vue';
-import getUserInfo from "../hooks/getUserInfo";
+import { provide } from "vue";
+import { getUserInfoAction } from "../hooks/getUserInfo";
 import Header from "../component/Header.vue";
 export default {
   name: "user",
@@ -15,7 +15,7 @@ export default {
     Header,
   },
   setup() {
-    let user = getUserInfo();
+    let user = getUserInfoAction();
     provide("user", user);
     return { user };
   },

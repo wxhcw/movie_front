@@ -39,11 +39,17 @@
       <el-table-column label="Date" width="200" prop="movie_time" />
       <el-table-column label="Operations">
         <template #default="scope">
-          <router-link :to="`/user/center/${scope.row.movie_id}/${scope.row.schedule_id}`">
-            <el-button size="small" type="danger" :icon="Ticket" style="margin-right: 1.2rem">
-              购票
-            </el-button>
-          </router-link>
+          <!-- <router-link :to="`/user/center/${scope.row.movie_id}/${scope.row.schedule_id}`"> -->
+          <el-button
+            size="small"
+            type="danger"
+            :icon="Ticket"
+            style="margin-right: 1.2rem"
+            @click="buyTicket(scope.row)"
+          >
+            购票
+          </el-button>
+          <!-- </router-link> -->
           <el-button
             size="small"
             :icon="Collection"
@@ -60,16 +66,22 @@
 </template>
 
 <script>
-import { onMounted, reactive, toRefs } from "vue";
+import { inject, onMounted, reactive, toRefs } from "vue";
 import { Ticket, Collection } from "@element-plus/icons-vue";
 import { getCollectSchedule } from "../../server/movie";
 import { updateIsCollect } from "../../hooks/getMovieInfo";
+import { buyTicketAction } from "../../hooks/getUserInfo";
+import moment from "moment";
 export default {
   name: "userCollect",
   setup() {
     const dataShow = reactive({ tableData: [] });
     const initData = () => {
       getCollectSchedule().then((res) => {
+        res.data.forEach((item) => {
+          //格式化日期
+          item.movie_time = moment(item.movie_time).format("YYYY-MM-DD HH:mm");
+        });
         dataShow.tableData = res.data;
       });
     };
@@ -77,10 +89,14 @@ export default {
       updateIsCollect(row);
       dataShow.tableData.splice(index, 1);
     };
+    const user = inject("user"); //获取用户ID
+    const buyTicket = (row) => {
+      buyTicketAction(row, user.userinfo.customer_id);
+    };
     onMounted(() => {
       initData();
     });
-    return { ...toRefs(dataShow), Ticket, Collection, upCollect };
+    return { ...toRefs(dataShow), Ticket, Collection, upCollect, buyTicket };
   },
 };
 </script>

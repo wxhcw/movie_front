@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import getUserInfo from "../hooks/getUserInfo";
+import { getUserInfoAction } from "../hooks/getUserInfo";
 import Header from "../component/Header.vue";
 import Sidebar from "./component/Sidebar.vue";
 import { computed } from "vue";
@@ -23,7 +23,7 @@ export default {
     Sidebar,
   },
   setup() {
-    let user = getUserInfo();
+    let user = getUserInfoAction();
 
     const store = useStore();
     const collapse = computed(() => store.state.collapse);

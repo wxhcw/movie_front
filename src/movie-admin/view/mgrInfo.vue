@@ -245,18 +245,22 @@ export default {
     const deleteMovieInfo = (row, index) => {
       ElMessageBox.confirm(`确定要删除《${row.movie_name}》吗?`, {
         confirmButtonText: "确定",
-        cancelButtonText: "删除",
+        cancelButtonText: "取消",
         type: "warning",
-      }).then(() => {
-        delMovInfo(row.movie_id).then((data) => {
-          if (data.status) {
-            ElMessage.error(data.message);
-          } else {
-            movieHandler.value.dataShow.splice(index, 1);
-            ElMessage.success(`删除《${row.movie_name}》成功`);
-          }
+      })
+        .then(() => {
+          delMovInfo(row.movie_id).then((data) => {
+            if (data.status) {
+              ElMessage.error(data.message);
+            } else {
+              movieHandler.value.dataShow.splice(index, 1);
+              ElMessage.success(`删除《${row.movie_name}》成功`);
+            }
+          });
+        })
+        .catch(() => {
+          ElMessage.info('取消删除');
         });
-      });
     };
 
     //更新电影行基本信息

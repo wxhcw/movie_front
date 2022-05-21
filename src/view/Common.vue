@@ -88,12 +88,10 @@ export default {
     };
     if (!props.isLogin) {
       user.customer_id = nanoid();
-      console.log("id: ", user.customer_id);
       user.confirmPwd = "";
     }
     const userInfo = reactive(user);
     const submitRegForm = () => {
-      console.log(userInfo);
       userReg(userInfo).then((data) => {
         if (data.status) {
           ElMessage.error(data.message);

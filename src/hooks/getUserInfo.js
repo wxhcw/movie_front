@@ -1,10 +1,10 @@
 import { ElMessage, ElMessageBox } from "element-plus";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, toRefs } from "vue";
 import router from "../router";
 import { nanoid } from "nanoid";
 import moment from "moment";
 import { getUserInfo, insertOrder } from "../server/user";
-
+import { getAllOrderInfo } from "../server/admin";
 
 export function getUserInfoAction() {
     let user = reactive({
@@ -47,4 +47,49 @@ export function buyTicketAction(row, customer_id) {
         }).catch(() => {
             ElMessage.info('交易取消');
         })
+}
+export function getAllOrderInfoAction(psize) {
+    const orderinfo = reactive({
+        dataShow: [],
+        total: 0,
+    });
+    const page = reactive({
+        queryName: "",
+        queryUsername: "",
+        queryHall: "",
+        currentPage: 1,
+        pageSize: 0,
+    });
+    page.pageSize = psize
+    const handleCurrentChange = (val) => {
+        page.currentPage = val;
+        initData();
+    };
+    const initData = () => {
+        getAllOrderInfo(page).then((res) => {
+            res.data.results.forEach(item => {
+                //格式化日期
+                item.movie_time = moment(item.movie_time).format("YYYY-MM-DD HH:mm")
+                item.order_time = moment(item.order_time).format("YYYY-MM-DD HH:mm")
+            })
+            orderinfo.dataShow = res.data.results;
+            orderinfo.total = res.data.totalCount;
+        });
+    };
+    onMounted(() => {
+        initData();
+    });
+    const queryMovName = () => {
+        initData();
+    };
+    const clearFn = () => {
+        initData();
+    };
+    return {
+        queryMovName,
+        handleCurrentChange,
+        clearFn,
+        ...toRefs(page),
+        ...toRefs(orderinfo),
+    };
 }

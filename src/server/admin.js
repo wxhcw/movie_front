@@ -39,3 +39,16 @@ export function delMovInfo(movieId){
             });
     });
 }
+// 获取全部订单信息
+export function getAllOrderInfo(pageData) {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/admin/orderInfo", { ...pageData })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}

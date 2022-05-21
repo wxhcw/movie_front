@@ -52,3 +52,17 @@ export function getAllOrderInfo(pageData) {
             });
     });
 }
+// 获取全部用户信息
+export function getAllUserInfo(pageData) {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/admin/userInfo", { ...pageData })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+

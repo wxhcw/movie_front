@@ -4,7 +4,7 @@
     style="width: 100%"
     empty-text="该电影暂无排片信息"
   >
-    <el-table-column label="Date" width="250" prop="movie_time" />
+    <el-table-column label="Date" width="250" prop="movie_time" sortable/>
     <el-table-column label="Hall" width="180">
       <template #default="{ row }"> {{ row.schedule_hall }}号大厅 </template>
     </el-table-column>

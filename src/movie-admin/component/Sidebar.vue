@@ -80,6 +80,11 @@ export default {
         index: "./mgrOrder",
         title: "订单管理",
       },
+      {
+        icon: "ChatDotSquare",
+        index: "./mgrScore",
+        title: "评论管理",
+      },
     ];
 
     const route = useRoute();

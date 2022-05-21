@@ -3,8 +3,8 @@ import { onMounted, reactive, toRefs } from "vue";
 import router from "../router";
 import { nanoid } from "nanoid";
 import moment from "moment";
-import { getUserInfo, insertOrder } from "../server/user";
-import { getAllOrderInfo } from "../server/admin";
+import { getUserInfo, insertOrder, getOrderInfo } from "../server/user";
+import { getAllOrderInfo, getAllUserInfo } from "../server/admin";
 
 export function getUserInfoAction() {
     let user = reactive({
@@ -47,6 +47,50 @@ export function buyTicketAction(row, customer_id) {
         }).catch(() => {
             ElMessage.info('交易取消');
         })
+}
+export function getOrderInfoAction(psize, customerId) {
+    const orderinfo = reactive({
+        dataShow: [],
+        total: 0,
+    });
+    const page = reactive({
+        queryName: "",
+        queryHall: "",
+        currentPage: 1,
+        pageSize: 0,
+    });
+    page.pageSize = psize
+    const handleCurrentChange = (val) => {
+        page.currentPage = val;
+        initData();
+    };
+    const initData = () => {
+        getOrderInfo(customerId, page).then((res) => {
+            res.data.results.forEach(item => {
+                //格式化日期
+                item.movie_time = moment(item.movie_time).format("YYYY-MM-DD HH:mm")
+                item.order_time = moment(item.order_time).format("YYYY-MM-DD HH:mm")
+            })
+            orderinfo.dataShow = res.data.results;
+            orderinfo.total = res.data.totalCount;
+        });
+    };
+    onMounted(() => {
+        initData();
+    });
+    const queryMovName = () => {
+        initData();
+    };
+    const clearFn = () => {
+        initData();
+    };
+    return {
+        queryMovName,
+        handleCurrentChange,
+        clearFn,
+        ...toRefs(page),
+        ...toRefs(orderinfo),
+    };
 }
 export function getAllOrderInfoAction(psize) {
     const orderinfo = reactive({
@@ -91,5 +135,43 @@ export function getAllOrderInfoAction(psize) {
         clearFn,
         ...toRefs(page),
         ...toRefs(orderinfo),
+    };
+}
+export function getAllUserInfoAction(psize) {
+    const userinfo = reactive({
+        dataShow: [],
+        total: 0,
+    });
+    const page = reactive({
+        queryUsername: "",
+        currentPage: 1,
+        pageSize: 0,
+    });
+    page.pageSize = psize
+    const handleCurrentChange = (val) => {
+        page.currentPage = val;
+        initData();
+    };
+    const initData = () => {
+        getAllUserInfo(page).then((res) => {
+            userinfo.dataShow = res.data.results;
+            userinfo.total = res.data.totalCount;
+        });
+    };
+    onMounted(() => {
+        initData();
+    });
+    const queryMovName = () => {
+        initData();
+    };
+    const clearFn = () => {
+        initData();
+    };
+    return {
+        queryMovName,
+        handleCurrentChange,
+        clearFn,
+        ...toRefs(page),
+        ...toRefs(userinfo),
     };
 }

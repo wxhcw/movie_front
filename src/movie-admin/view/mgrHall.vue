@@ -1,5 +1,5 @@
 <template>
-  <h2>mgrHall</h2>
+  <h2>mgrHall待开发中...</h2>
 </template>
 
 <script>

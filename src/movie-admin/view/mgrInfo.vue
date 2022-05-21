@@ -95,7 +95,7 @@
           <el-input v-model="updateMovieInfoForm.value.movie_nation"></el-input>
         </el-form-item>
         <el-form-item label="Score">
-          <el-input v-model="updateMovieInfoForm.value.movie_score"></el-input>
+          <el-input v-model="updateMovieInfoForm.value.movie_score" disabled></el-input>
         </el-form-item>
         <el-form-item label="Poster" class="info-poster">
           <el-upload

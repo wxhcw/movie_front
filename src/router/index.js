@@ -108,6 +108,11 @@ const routes = [
                 name: "mgrOrder",
                 component: () => import("../movie-admin/view/mgrOrder"),
             },
+            {
+                path: "mgrScore",
+                name: "mgrScore",
+                component: () => import("../movie-admin/view/mgrScore"),
+            },
         ]
     },
 

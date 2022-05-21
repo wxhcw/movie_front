@@ -65,7 +65,7 @@
       <el-table-column label="Price" width="100">
         <template #default="{ row }"> ￥{{ row.price }} </template>
       </el-table-column>
-      <el-table-column label="Release date" width="200" prop="movie_time" />
+      <el-table-column label="Release date" width="200" prop="movie_time" sortable/>
       <el-table-column label="Operations">
         <template #default="{ row }">
           <!-- <router-link :to="`/user/center/${row.movie_id}/${row.schedule_id}`"> -->

@@ -36,7 +36,7 @@
       <el-table-column label="Price" width="100">
         <template #default="{ row }"> ￥{{ row.price }} </template>
       </el-table-column>
-      <el-table-column label="Date" width="200" prop="movie_time" />
+      <el-table-column label="Date" width="200" prop="movie_time" sortable/>
       <el-table-column label="Operations">
         <template #default="scope">
           <!-- <router-link :to="`/user/center/${scope.row.movie_id}/${scope.row.schedule_id}`"> -->

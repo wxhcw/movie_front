@@ -50,12 +50,13 @@
         label="Order time"
         width="160"
         prop="order_time"
+        sortable
         show-overflow-tooltip
       />
       <el-table-column label="Hall" width="120">
         <template #default="{ row }"> {{ row.schedule_hall }}号大厅 </template>
       </el-table-column>
-      <el-table-column label="Release date" width="160" prop="movie_time" />
+      <el-table-column label="Release date" width="160" prop="movie_time" sortable/>
       <el-table-column label="Poster" width="80">
         <template #default="{ row }">
           <img v-show="row.movie_poster" :src="row.movie_poster" />

@@ -68,10 +68,23 @@ export function insertOrder(ticket) {
     });
 }
 // 根据用户ID获取订单信息
-export function getOrderInfo(userId) {
+export function getOrderInfo(customerId, pageData) {
     return new Promise((resolve, reject) => {
         axios
-            .get(`/api/my/orderInfo/${userId}`)
+            .post(`/api/my/orderInfo/${customerId}`, { ...pageData })
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+// 根据ID删除订单信息
+export function delOrderInfo(orderId){
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`/api/my/delOrderInfo/${orderId}`)
             .then(response => {
                 resolve(response.data);
             })

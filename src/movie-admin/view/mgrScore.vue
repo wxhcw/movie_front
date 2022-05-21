@@ -1,10 +1,10 @@
 <template>
-  <h2>mgrDetail待开发中...</h2>
+  <h2>mgrScore待开发中...</h2>
 </template>
 
 <script>
 export default {
-  name: "mgrDetail",
+  name: "mgrScore",
 };
 </script>
 

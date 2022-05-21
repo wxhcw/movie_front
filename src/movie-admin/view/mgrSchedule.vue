@@ -68,7 +68,7 @@
       <el-table-column label="Price" width="80">
         <template #default="{ row }"> ￥{{ row.price }} </template>
       </el-table-column>
-      <el-table-column label="Release date" prop="movie_time" />
+      <el-table-column label="Release date" prop="movie_time" sortable/>
       <el-table-column label="Operations">
         <template #default="scope">
           <el-button
